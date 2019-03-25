@@ -1,0 +1,27 @@
+{
+  "name": "jasmine-spec-generator",
+  "version": "1.0.0",
+  "description": "TBD",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsc --watch index.ts",
+    "build": "tsc index.ts",
+    "test": "node test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:FDIM/jasmine-unit-test-generator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "11.11.6",
+    "lodash": "4.17.15",
+    "ts-node": "8.0.3",
+    "typescript": "3.3.4000"
+  },
+  "bin": {
+    "jasmine-spec-generator": "./index.js"
+  },
+  "dependencies": {}
+}
