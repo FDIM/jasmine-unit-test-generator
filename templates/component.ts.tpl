@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { <%=component %> } from '<%=path %>';<% 
+import { <%=name %> } from '<%=path %>';<% 
     imports.forEach(function(value) { %>
 import { <%=value.names.join(', ') %> } from <%=value.path %>;<% }) %>
 
-describe('<%=component %>', () => {
-    let component: <%=component %>;
-    let fixture: ComponentFixture<<%=component %>>;<% 
+describe('<%=name %>', () => {
+    let component: <%=name %>;
+    let fixture: ComponentFixture<<%=name %>>;<% 
         dependencies.forEach(function(dep) { %>
     let <%=dep.variableName %>: jasmine.SpyObj<<%=dep.type || 'any' %>>;<% }) %>
 
@@ -14,7 +14,7 @@ describe('<%=component %>', () => {
         <%=dep.variableName %> = jasmine.createSpyObj<<%=dep.type || 'any' %>>('<%=dep.type || dep.name %>', ['<%=dep.usedMethods.join("', '")%>']);<% }) %>
 
         TestBed.configureTestingModule({
-            declarations: [<%=component %>],
+            declarations: [<%=name %>],
             providers: [<%
                 dependencies.forEach(function(dep) { %>
                 { provide: <%=dep.injectionToken %>, useFactory: () => <%=dep.variableName%> },<% }) %>
@@ -24,7 +24,7 @@ describe('<%=component %>', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(<%=component %>);
+        fixture = TestBed.createComponent(<%=name %>);
         component = fixture.componentInstance;
     });
 
