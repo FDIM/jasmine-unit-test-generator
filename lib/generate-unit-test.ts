@@ -1,5 +1,5 @@
 import template = require('lodash/template');
-import { ParsedSourceFile, ParsedClass, ClassOptions, TemplateOptions, DependencyHandler, ParsedImport } from '../model';
+import { ParsedSourceFile, ParsedClass, ClassOptions, TemplateOptions, DependencyHandler, ParsedImport, DependencyHandlerOptions } from '../model';
 import { basename } from 'path';
 import { readFileSync } from 'fs';
 
@@ -26,21 +26,26 @@ export function generateUnitTest(path, sourceCode, input: ParsedSourceFile, hand
             });
         }
         return imports;
-    }, [] as ParsedSourceFile['imports']);
+    }, [] as ParsedImport[]);
 
-    const classOptions = getClassOptions(klass, handlers, sourceCode, usedImports);
+    const classOptions = getClassOptions(klass, handlers, {
+        sourceCode,
+        imports: usedImports,
+        allImports: input.imports
+    });
 
     return generator({
         name: klass.name,
         path: relativePath,
         imports: usedImports,
+        allImports: input.imports,
         ...classOptions,
         ...templateOptions
     });
 }
 
 
-function getClassOptions(klass: ParsedClass, handlers: DependencyHandler[], sourceCode: string, imports: ParsedImport[]): ClassOptions {
+function getClassOptions(klass: ParsedClass, handlers: DependencyHandler[], options: Partial<DependencyHandlerOptions>): ClassOptions {
     const result: ClassOptions = {
         declarations: [],
         initializers: [],
@@ -56,8 +61,7 @@ function getClassOptions(klass: ParsedClass, handlers: DependencyHandler[], sour
                 handler.run(result, dep, {
                     variableName,
                     injectionToken,
-                    sourceCode,
-                    imports
+                    ...options as any
                 });
                 return;
             }

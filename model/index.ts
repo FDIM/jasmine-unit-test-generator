@@ -31,13 +31,15 @@ export interface TemplateOptions {
     templatePath: string;
 }
 
+export interface DependencyHandlerOptions {
+    variableName: string;
+    injectionToken?: string;
+    sourceCode: string;
+    imports: ParsedImport[];
+    allImports: ParsedImport[];
+}
 export interface DependencyHandler {
-    run(result: ClassOptions, dep: ParsedClassDependency, options: {
-        variableName: string,
-        injectionToken?: string,
-        sourceCode: string,
-        imports: ParsedImport[]
-    }): void
+    run(result: ClassOptions, dep: ParsedClassDependency, options: DependencyHandlerOptions): void
 
     test(dep: ParsedClassDependency): boolean;
 };
