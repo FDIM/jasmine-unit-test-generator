@@ -3,9 +3,16 @@ import { ParsedSourceFile } from './parse-source-file';
 import { basename } from 'path';
 import { readFileSync } from 'fs';
 
-export function generateSpec(path, sourceCode, input: ParsedSourceFile) {
+export function generateUnitTest(path, sourceCode, input: ParsedSourceFile) {
     const klass = input.classes[0];
-    const templateText = readFileSync(getTemplateFile(klass.name)).toString();
+
+    if (!klass) {
+        throw new Error(`No classes found in ${path}`);
+    }
+
+    const templateOptions = getTemplateOptions(klass.name);
+
+    const templateText = readFileSync(templateOptions.templatePath).toString();
     const generator = template(templateText);
     const relativePath = './' + basename(path).replace('.ts', '');
     const usedImports = input.imports.reduce((imports, value) => {
@@ -32,7 +39,8 @@ export function generateSpec(path, sourceCode, input: ParsedSourceFile) {
                 usedMethods: getUsedMethods(sourceCode, dep.name),
                 ...dep
             };
-        })
+        }),
+        ...templateOptions
     });
 }
 
@@ -42,15 +50,44 @@ function getUsedMethods(sourceCode: string, variable: string) {
     let matches: any;
 
     while (matches = regex.exec(sourceCode)) {
-        result.push(decodeURIComponent(matches[1]));
+        if (result.indexOf(matches[1]) === -1) {
+            result.push(decodeURIComponent(matches[1]));
+        }
     }
     return result;
 }
 
-function getTemplateFile(name: string) {
+function getTemplateOptions(name: string) {
+
     if (name.indexOf('Component') !== -1) {
-        return __dirname + '/../templates/component.ts.tpl';
+        return {
+            instanceVariableName: 'component',
+            templateType: 'Component',
+            templatePath: __dirname + '/../templates/component.ts.tpl'
+        };
+    } else if (name.indexOf('Directive') !== -1) {
+        return {
+            instanceVariableName: 'directive',
+            templateType: 'Directive',
+            templatePath: __dirname + '/../templates/component.ts.tpl'
+        };
+    } else if (name.indexOf('Service') !== -1) {
+        return {
+            instanceVariableName: 'service',
+            templateType: 'Service',
+            templatePath: __dirname + '/../templates/class.ts.tpl'
+        };
+    } else if (name.indexOf('Pipe') !== -1) {
+        return {
+            instanceVariableName: 'Pipe',
+            templateType: 'Pipe',
+            templatePath: __dirname + '/../templates/class.ts.tpl'
+        };
     } else {
-        return __dirname + '/../templates/class.ts.tpl';
+        return {
+            instanceVariableName: 'instance',
+            templateType: 'Instance',
+            templatePath: __dirname + '/../templates/class.ts.tpl'
+        };
     }
 }

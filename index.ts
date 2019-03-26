@@ -2,7 +2,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 import * as ts from 'typescript';
 import { parseSourceFile } from './lib/parse-source-file';
-import { generateSpec } from './lib/generate-spec';
+import { generateUnitTest } from './lib/generate-unit-test';
 
 run(process.argv[2]);
 
@@ -25,7 +25,7 @@ function run(path: string) {
     );
 
     const input = parseSourceFile(sourceFile);
-    const output = generateSpec(path, sourceCode, input);
+    const output = generateUnitTest(path, sourceCode, input);
 
     writeFileSync(specPath, output);
 }

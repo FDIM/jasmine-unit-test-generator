@@ -4,7 +4,7 @@ import { <%=name %> } from '<%=path %>';<%
 import { <%=value.names.join(', ') %> } from <%=value.path %>;<% }) %>
 
 describe('<%=name %>', () => {
-    let component: <%=name %>;
+    let <%=instanceVariableName %>: <%=name %>;
     let fixture: ComponentFixture<<%=name %>>;<% 
         dependencies.forEach(function(dep) { %>
     let <%=dep.variableName %>: jasmine.SpyObj<<%=dep.type || 'any' %>>;<% }) %>
@@ -25,11 +25,11 @@ describe('<%=name %>', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(<%=name %>);
-        component = fixture.componentInstance;
+        <%=instanceVariableName %> = fixture.componentInstance;
     });
 
     it('should create', () => {
-        expect(component).toBeTruthy();
+        expect(<%=instanceVariableName %>).toBeTruthy();
     });
 
 });
