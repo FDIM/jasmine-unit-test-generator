@@ -1,18 +1,31 @@
 #!/usr/bin/env node
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, readdirSync } from 'fs';
 import * as ts from 'typescript';
 import { parseSourceFile } from './lib/parse-source-file';
 import { generateUnitTest } from './lib/generate-unit-test';
+import defaultDependencyHandler from './lib/default-dependency-handler';
+import { DependencyHandler } from './model';
 
-run(process.argv[2]);
+run(process.argv.slice(2));
 
-function run(path: string) {
-
-    if (!path) {
+function run(params: string[]) {
+    if (!params.length) {
         // tslint:disable-next-line:no-console
         console.error('missing path argument');
         process.exit(1);
     }
+
+    const handlers: DependencyHandler[] = [];
+    if (params.length > 1 && params[0].indexOf('--handlers') === 0) {
+        const files = readdirSync(params[1]);
+        files.forEach((file) => {
+            handlers.push(require(process.cwd() + '/' + params[1] + '/' + file));
+        });
+        params = params.slice(2);
+    }
+    handlers.push(defaultDependencyHandler);
+
+    const path = params[0];
 
     const specPath = path.substring(0, path.length - 2) + 'spec.ts';
     const sourceCode = readFileSync(path).toString();
@@ -25,7 +38,7 @@ function run(path: string) {
     );
 
     const input = parseSourceFile(sourceFile);
-    const output = generateUnitTest(path, sourceCode, input);
+    const output = generateUnitTest(path, sourceCode, input, handlers);
 
     writeFileSync(specPath, output);
 }

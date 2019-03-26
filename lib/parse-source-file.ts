@@ -1,14 +1,5 @@
 import * as ts from 'typescript';
-
-export interface ParsedClass {
-    name: string;
-    dependencies: { name: string, type?: string; token?: string }[];
-}
-
-export interface ParsedSourceFile {
-    imports: { path: string, names: string[] }[];
-    classes: ParsedClass[];
-}
+import { ParsedSourceFile, ParsedClass } from '../model';
 
 export function parseSourceFile(file: ts.SourceFile): ParsedSourceFile {
     const result: ParsedSourceFile = {

@@ -1,21 +1,9 @@
 import template = require('lodash/template');
-import { ParsedSourceFile, ParsedClass } from './parse-source-file';
+import { ParsedSourceFile, ParsedClass, ClassOptions, TemplateOptions, DependencyHandler } from '../model';
 import { basename } from 'path';
 import { readFileSync } from 'fs';
 
-interface ClassOptions {
-    declarations: { name: string, type: string }[];
-    factories: { name: string, value: string }[];
-    dependencies: { name: string, token: string }[];
-}
-
-interface TemplateOptions {
-    instanceVariableName: string;
-    templateType: string;
-    templatePath: string;
-}
-
-export function generateUnitTest(path, sourceCode, input: ParsedSourceFile) {
+export function generateUnitTest(path, sourceCode, input: ParsedSourceFile, handlers: DependencyHandler[]) {
     const klass = input.classes[0];
 
     if (!klass) {
@@ -44,46 +32,33 @@ export function generateUnitTest(path, sourceCode, input: ParsedSourceFile) {
         name: klass.name,
         path: relativePath,
         imports: usedImports,
-        ...getClassOptions(klass, sourceCode),
+        ...getClassOptions(klass, handlers, sourceCode),
         ...templateOptions
     });
 }
 
-function getUsedMethods(sourceCode: string, variable: string) {
-    const result: string[] = [];
-    const regex = new RegExp(`${variable}\\\.([a-zA-Z0-9]+)[\\\(<]`, 'g');
-    let matches: any;
 
-    while (matches = regex.exec(sourceCode)) {
-        if (result.indexOf(matches[1]) === -1) {
-            result.push(decodeURIComponent(matches[1]));
-        }
-    }
-    return result;
-}
-
-function getClassOptions(klass: ParsedClass, sourceCode: string): ClassOptions {
+function getClassOptions(klass: ParsedClass, handlers: DependencyHandler[], sourceCode: string): ClassOptions {
     const result: ClassOptions = {
         declarations: [],
-        factories: [],
+        initializers: [],
         dependencies: []
     };
     klass.dependencies.forEach(dep => {
         const variableName = 'fake' + dep.name.charAt(0).toUpperCase() + dep.name.slice(1);
         const injectionToken = dep.type ? dep.type.replace(/(<.*)/, '') : dep.token;
-        const usedMethods = getUsedMethods(sourceCode, dep.name);
-        result.declarations.push({
-            name: variableName,
-            type: `jasmine.SpyObj<${dep.type || 'any'}>`
-        });
-        result.factories.push({
-            name: variableName,
-            value: `jasmine.createSpyObj<${dep.type || 'any'}>('${dep.type || dep.name}', ['${usedMethods.join("', '")}'])`
-        });
-        result.dependencies.push({
-            name: variableName,
-            token: injectionToken || 'no-token'
-        });
+
+        for (let i = 0; i < handlers.length; i++) {
+            const handler = handlers[i];
+            if (handler.test(dep)) {
+                handler.run(result, dep, {
+                    variableName,
+                    injectionToken,
+                    sourceCode
+                });
+                return;
+            }
+        }
     });
     return result;
 }

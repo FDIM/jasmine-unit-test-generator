@@ -10,7 +10,7 @@ describe('<%=name %>', () => {
     let <%=dec.name %>: <%=dec.type %>;<% }) %>
 
     beforeEach(async(() => {<% 
-            factories.forEach(function(factory) { %>
+            initializers.forEach(function(factory) { %>
         <%=factory.name %> = <%=factory.value%>;<% }) %>
 
         TestBed.configureTestingModule({
