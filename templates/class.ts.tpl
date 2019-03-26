@@ -4,19 +4,19 @@ import { <%=value.names.join(', ') %> } from <%=value.path %>;<% }) %>
 
 describe('<%=name %>', () => {
     let <%=instanceVariableName %>: <%=name %>;<% 
-        dependencies.forEach(function(dep) { %>
-    let <%=dep.variableName %>: jasmine.SpyObj<<%=dep.type || 'any' %>>;<% }) %>
+        declarations.forEach(function(dec) { %>
+    let <%=dec.name %>: <%=dec.type %>;<% }) %>
 
     function create<%=templateType %>() {
         <%=instanceVariableName %> = new <%=name %>(<%
             dependencies.forEach(function(dep) { %>
-            <%=dep.variableName%>,<% }) %>
+            <%=dep.name%>,<% }) %>
         );
     }
 
     beforeEach(() => {<% 
-            dependencies.forEach(function(dep) { %>
-        <%=dep.variableName %> = jasmine.createSpyObj<<%=dep.type || 'any' %>>('<%=dep.type || dep.name %>', ['<%=dep.usedMethods.join("', '")%>']);<% }) %>
+            factories.forEach(function(factory) { %>
+        <%=factory.name %> = <%=factory.value %>;<% }) %>
 
         create<%=templateType %>();
     });
