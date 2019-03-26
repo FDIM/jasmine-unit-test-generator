@@ -17,7 +17,7 @@ export interface ParsedSourceFile {
 
 export interface ClassOptions {
     declarations: { name: string, type: string }[];
-    initializers: { name: string, value: string }[];
+    initializers: { name?: string, value: string }[];
     dependencies: { name: string, token: string }[];
 }
 

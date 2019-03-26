@@ -16,7 +16,7 @@ describe('<%=name %>', () => {
 
     beforeEach(() => {<% 
             initializers.forEach(function(factory) { %>
-        <%=factory.name %> = <%=factory.value %>;<% }) %>
+        <%=(factory.name ? (factory.name + ' = ') : '') + factory.value %>;<% }) %>
 
         create<%=templateType %>();
     });

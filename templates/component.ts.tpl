@@ -11,7 +11,7 @@ describe('<%=name %>', () => {
 
     beforeEach(async(() => {<% 
             initializers.forEach(function(factory) { %>
-        <%=factory.name %> = <%=factory.value%>;<% }) %>
+        <%=(factory.name ? (factory.name + ' = ') : '') + factory.value%>;<% }) %>
 
         TestBed.configureTestingModule({
             declarations: [<%=name %>],
