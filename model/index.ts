@@ -9,9 +9,13 @@ export interface ParsedClassDependency {
     type?: string;
     token?: string;
 }
+export interface ParsedImport {
+    path: string;
+    names: string[];
+}
 
 export interface ParsedSourceFile {
-    imports: { path: string, names: string[] }[];
+    imports: ParsedImport[];
     classes: ParsedClass[];
 }
 
@@ -31,7 +35,8 @@ export interface DependencyHandler {
     run(result: ClassOptions, dep: ParsedClassDependency, options: {
         variableName: string,
         injectionToken?: string,
-        sourceCode: string
+        sourceCode: string,
+        imports: ParsedImport[]
     }): void
 
     test(dep: ParsedClassDependency): boolean;

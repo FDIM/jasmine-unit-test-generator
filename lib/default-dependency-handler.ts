@@ -15,7 +15,7 @@ export default {
         });
         result.initializers.push({
             name: options.variableName,
-            value: `jasmine.createSpyObj<${dep.type || 'any'}>('${dep.type || dep.name}', ['${usedMethods.join("', '")}'])`
+            value: `jasmine.createSpyObj<${dep.type || 'any'}>('${dep.type === 'any' || !dep.type ? dep.name : dep.type}', ['${usedMethods.join("', '")}'])`
         });
         result.dependencies.push({
             name: options.variableName,
