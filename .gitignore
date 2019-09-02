@@ -1,2 +1,3 @@
 node_modules
 **/*.js
+jasmine-unit-test-generator-*.tgz

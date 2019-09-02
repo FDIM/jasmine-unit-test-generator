@@ -1,11 +1,11 @@
 {
   "name": "jasmine-unit-test-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TBD",
   "main": "index.js",
   "scripts": {
     "build:dev": "tsc --watch index.ts",
-    "build": "tsc index.ts",
+    "build": "tsc index.ts && npm pack",
     "test": "node test/test.js"
   },
   "repository": {

@@ -1,4 +1,5 @@
 import template = require('lodash/template');
+import uniq = require('lodash/uniq');
 import { ParsedSourceFile, ParsedClass, ClassOptions, TemplateOptions, DependencyHandler, ParsedImport, DependencyHandlerOptions } from '../model';
 import { basename } from 'path';
 import { readFileSync } from 'fs';
@@ -34,10 +35,12 @@ export function generateUnitTest(path, sourceCode, input: ParsedSourceFile, hand
         allImports: input.imports
     });
 
+    const uniqueImports = getUniqueImports(usedImports);
+
     return generator({
         name: klass.name,
         path: relativePath,
-        imports: usedImports,
+        imports: uniqueImports,
         allImports: input.imports,
         ...classOptions,
         ...templateOptions
@@ -71,6 +74,26 @@ function getClassOptions(klass: ParsedClass, handlers: DependencyHandler[], opti
     return result;
 }
 
+function getUniqueImports(imports: ParsedImport[]): ParsedImport[] {
+    const result: ParsedImport[] = [];
+    let index = 0;
+    while (index < imports.length) {
+        const value = imports[index];
+        result.push(value);
+        index++;
+
+        for (let i = imports.length - 1; i >= index; i--) {
+            const target = imports[i];
+
+            if (target.path === value.path) {
+                value.names = uniq(value.names.concat(target.names));
+                imports.splice(i, 1);
+            }
+        }
+    }
+    return result;
+}
+
 function getTemplateOptions(name: string): TemplateOptions {
 
     if (name.indexOf('Component') !== -1) {
@@ -93,7 +116,7 @@ function getTemplateOptions(name: string): TemplateOptions {
         };
     } else if (name.indexOf('Pipe') !== -1) {
         return {
-            instanceVariableName: 'Pipe',
+            instanceVariableName: 'pipe',
             templateType: 'Pipe',
             templatePath: __dirname + '/../templates/class.ts.tpl'
         };
