@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build:dev": "tsc --watch index.ts",
-    "build": "tsc index.ts && npm pack",
+    "build": "tsc index.ts",
     "test": "jasmine --require=ts-node/register"
   },
   "repository": {
