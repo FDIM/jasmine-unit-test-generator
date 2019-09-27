@@ -6,7 +6,7 @@
   "scripts": {
     "build:dev": "tsc --watch index.ts",
     "build": "tsc index.ts && npm pack",
-    "test": "node test/test.js"
+    "test": "jasmine --require=ts-node/register"
   },
   "repository": {
     "type": "git",
@@ -15,11 +15,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "11.11.6",
-    "lodash": "4.17.15",
-    "ts-node": "8.0.3",
-    "@types/lodash": "4.14.141",
-    "typescript": "3.3.4000"
+    "@types/lodash": "^4.14.141",
+    "@types/node": "^11.11.6",
+    "@types/jasmine": "^2.8.7",
+    "jasmine": "^3.5.0",
+    "lodash": "^4.17.15",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.3.4000"
   },
   "bin": {
     "jasmine-unit-test-generator": "./index.js"
