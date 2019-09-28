@@ -1,5 +1,7 @@
 # Jasmine unit test generator
 
+[![Travis CI build](https://travis-ci.org/fdim/jasmine-unit-test-generator.svg)](https://travis-ci.org/fdim/jasmine-unit-test-generator)
+
 Automates creation of initial unit test files taking dependencies into account.
 
 Supported types:
