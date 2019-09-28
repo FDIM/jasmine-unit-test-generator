@@ -2,10 +2,13 @@
     "exclude": [
         "./node_modules"
     ],
+    "include": [
+        "./src/*"
+    ],
     "compileOnSave": false,
     "compilerOptions": {
         "typeRoots": [ "./node_modules/@types/" ],
-        "outDir": "dist",
+        "outDir": "lib",
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "experimentalDecorators": true,

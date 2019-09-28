@@ -1,6 +1,6 @@
 import template = require('lodash/template');
 import uniq = require('lodash/uniq');
-import { ParsedSourceFile, ParsedClass, ClassOptions, TemplateOptions, DependencyHandler, ParsedImport, DependencyHandlerOptions } from '../model';
+import { ParsedSourceFile, ParsedClass, ClassOptions, TemplateOptions, DependencyHandler, ParsedImport, DependencyHandlerOptions } from './model';
 import { basename } from 'path';
 import { readFileSync } from 'fs';
 
