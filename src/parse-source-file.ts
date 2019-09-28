@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import { ParsedSourceFile, ParsedClass } from '../model';
+import { ParsedSourceFile, ParsedClass } from './model';
 
 export function parseSourceFile(file: ts.SourceFile): ParsedSourceFile {
     const result: ParsedSourceFile = {

@@ -1,10 +1,10 @@
 import template = require('lodash/template');
 import uniq = require('lodash/uniq');
-import { ParsedSourceFile, ParsedClass, ClassOptions, TemplateOptions, DependencyHandler, ParsedImport, DependencyHandlerOptions } from '../model';
+import { ParsedSourceFile, ParsedClass, ClassOptions, TemplateOptions, DependencyHandler, ParsedImport, DependencyHandlerOptions } from './model';
 import { basename } from 'path';
 import { readFileSync } from 'fs';
 
-export function generateUnitTest(path, sourceCode, input: ParsedSourceFile, handlers: DependencyHandler[]) {
+export function generateUnitTest(path: string, sourceCode: string, input: ParsedSourceFile, handlers: DependencyHandler[]) {
     const klass = input.classes[0];
 
     if (!klass) {

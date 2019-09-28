@@ -2,14 +2,18 @@
     "exclude": [
         "./node_modules"
     ],
+    "include": [
+        "./src/*"
+    ],
     "compileOnSave": false,
     "compilerOptions": {
         "typeRoots": [ "./node_modules/@types/" ],
-        "noImplicitAny": false,
+        "outDir": "lib",
+        "noImplicitAny": true,
         "noImplicitReturns": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "declaration": false,
+        "declaration": true,
         "skipLibCheck": true,
         "target": "es2015",
         "module": "commonjs",

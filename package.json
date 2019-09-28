@@ -1,18 +1,19 @@
 {
   "name": "jasmine-unit-test-generator",
-  "version": "1.0.1",
-  "description": "TBD",
-  "main": "index.js",
+  "version": "1.1.0",
+  "description": "Generate initial unit test with all class dependencies mocked. Can be extended with custom handlers to cover move advanced cases",
+  "keywords": ["jasmine", "unit test generator", "angular unit test"],
+  "main": "dist/public-api.js",
   "scripts": {
-    "build:dev": "tsc --watch index.ts",
-    "build": "tsc index.ts",
+    "build:dev": "tsc --watch",
+    "build": "tsc",
     "test": "jasmine --require=ts-node/register"
   },
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com:FDIM/jasmine-unit-test-generator.git"
   },
-  "author": "",
+  "author": "FDIM",
   "license": "ISC",
   "devDependencies": {
     "@types/lodash": "^4.14.141",
@@ -24,7 +25,7 @@
     "typescript": "^3.3.4000"
   },
   "bin": {
-    "jasmine-unit-test-generator": "./index.js"
+    "jasmine-unit-test-generator": "./lib/cli.js"
   },
   "dependencies": {
     "lodash": "^4.1.*"

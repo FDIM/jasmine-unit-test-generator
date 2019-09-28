@@ -1,4 +1,4 @@
-import { run } from '../lib/cli';
+import { run } from '../src/main';
 import { unlinkSync, readFileSync } from 'fs';
 
 describe('integration', () => {

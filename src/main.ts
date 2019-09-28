@@ -3,7 +3,7 @@ import * as ts from 'typescript';
 import { parseSourceFile } from './parse-source-file';
 import { generateUnitTest } from './generate-unit-test';
 import defaultDependencyHandler from './default-dependency-handler';
-import { DependencyHandler } from '../model';
+import { DependencyHandler } from './model';
 
 export function run(params: string[]) {
     if (!params.length) {
