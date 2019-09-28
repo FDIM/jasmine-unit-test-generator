@@ -4,7 +4,7 @@ import { ParsedSourceFile, ParsedClass, ClassOptions, TemplateOptions, Dependenc
 import { basename } from 'path';
 import { readFileSync } from 'fs';
 
-export function generateUnitTest(path, sourceCode, input: ParsedSourceFile, handlers: DependencyHandler[]) {
+export function generateUnitTest(path: string, sourceCode: string, input: ParsedSourceFile, handlers: DependencyHandler[]) {
     const klass = input.classes[0];
 
     if (!klass) {
