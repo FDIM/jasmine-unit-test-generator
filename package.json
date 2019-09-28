@@ -1,9 +1,13 @@
 {
   "name": "jasmine-unit-test-generator",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Generate initial unit test with all class dependencies mocked. Can be extended with custom handlers to cover move advanced cases",
-  "keywords": ["jasmine", "unit test generator", "angular unit test"],
-  "main": "dist/public-api.js",
+  "keywords": [
+    "jasmine",
+    "unit test generator",
+    "angular unit test"
+  ],
+  "main": "lib/public-api.js",
   "scripts": {
     "build:dev": "tsc --watch",
     "build": "tsc",
@@ -20,7 +24,6 @@
     "@types/node": "^11.11.6",
     "@types/jasmine": "^2.8.7",
     "jasmine": "^3.5.0",
-    "lodash": "^4.17.15",
     "ts-node": "^8.0.3",
     "typescript": "^3.3.4000"
   },
@@ -29,5 +32,8 @@
   },
   "dependencies": {
     "lodash": "^4.1.*"
+  },
+  "peerDependencies": {
+    "typescript": "^3.3.4000"
   }
 }
