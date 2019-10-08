@@ -1,3 +1,7 @@
-export class AuthChangeEvent {
-  constructor(public type: 'login' | 'logout') { }
+export class LoginEvent {
+  constructor(public profile: any) { }
+}
+
+export class LogoutEvent {
+  constructor(public reason: string) { }
 }

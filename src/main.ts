@@ -16,7 +16,8 @@ export function run(params: string[]) {
   if (params.length > 1 && params[0].indexOf('--handlers') === 0) {
     const files = readdirSync(params[1]);
     files.forEach((file) => {
-      handlers.push(require(process.cwd() + '/' + params[1] + '/' + file));
+      const value = require(process.cwd() + '/' + params[1] + '/' + file);
+      handlers.push(value.default || value);
     });
     params = params.slice(2);
   }

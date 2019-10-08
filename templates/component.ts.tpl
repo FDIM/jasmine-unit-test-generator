@@ -1,9 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { <%=name %> } from '<%=path %>';<% 
+import { async, ComponentFixture, TestBed } from <%=quoteSymbol %>@angular/core/testing<%=quoteSymbol %>;
+import { <%=name %> } from <%=quoteSymbol %><%=path %><%=quoteSymbol %>;<% 
   imports.forEach(function(value) { %>
 import { <%=value.names.join(', ') %> } from <%=value.path %>;<% }) %>
 
-describe('<%=name %>', () => {
+describe(<%=quoteSymbol %><%=name %><%=quoteSymbol %>, () => {
   let <%=instanceVariableName %>: <%=name %>;
   let fixture: ComponentFixture<<%=name %>>;<% 
     declarations.forEach(function(dec) { %>
@@ -28,7 +28,7 @@ describe('<%=name %>', () => {
     <%=instanceVariableName %> = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  it(<%=quoteSymbol %>should create<%=quoteSymbol %>, () => {
     expect(<%=instanceVariableName %>).toBeTruthy();
   });
 

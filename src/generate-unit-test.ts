@@ -1,6 +1,6 @@
 import template = require('lodash/template');
 import uniq = require('lodash/uniq');
-import { ParsedSourceFile, ParsedClass, ClassOptions, TemplateOptions, DependencyHandler, ParsedImport, DependencyHandlerOptions } from './model';
+import { ParsedSourceFile, ParsedClass, ClassOptions, TemplateOptions, DependencyHandler, ParsedImport } from './model';
 import { basename } from 'path';
 import { readFileSync } from 'fs';
 
@@ -16,6 +16,7 @@ export function generateUnitTest(path: string, sourceCode: string, input: Parsed
   const templateText = readFileSync(templateOptions.templatePath).toString();
   const generator = template(templateText);
   const relativePath = './' + basename(path).replace('.ts', '');
+
   const usedImports = input.imports.reduce((imports, value) => {
     const matchingDependencies = value.names.filter((name) => {
       return klass.dependencies.some(dep => !!dep.type && dep.type.replace(/(<.*)/, '') === name);
@@ -29,17 +30,21 @@ export function generateUnitTest(path: string, sourceCode: string, input: Parsed
     return imports;
   }, [] as ParsedImport[]);
 
+  const quoteSymbol = determinateUsedQuote(input.imports);
+
   const classOptions = getClassOptions(klass, handlers, {
     sourceCode,
+    quoteSymbol,
     imports: usedImports,
     allImports: input.imports
   });
 
-  const uniqueImports = getUniqueImports(usedImports);
+  const uniqueImports = prepareImports(usedImports, quoteSymbol);
 
   return generator({
     name: klass.name,
     path: relativePath,
+    quoteSymbol,
     imports: uniqueImports,
     allImports: input.imports,
     ...classOptions,
@@ -48,11 +53,17 @@ export function generateUnitTest(path: string, sourceCode: string, input: Parsed
 }
 
 
-function getClassOptions(klass: ParsedClass, handlers: DependencyHandler[], options: Partial<DependencyHandlerOptions>): ClassOptions {
+function getClassOptions(klass: ParsedClass, handlers: DependencyHandler[], options: {
+  sourceCode: string,
+  quoteSymbol: string,
+  imports: ParsedImport[],
+  allImports: ParsedImport[]
+}): ClassOptions {
   const result: ClassOptions = {
     declarations: [],
     initializers: [],
-    dependencies: []
+    dependencies: [],
+    imports: options.imports
   };
   klass.dependencies.forEach(dep => {
     const offset = dep.name.indexOf('$') === 0 ? 1 : 0;
@@ -65,7 +76,9 @@ function getClassOptions(klass: ParsedClass, handlers: DependencyHandler[], opti
         handler.run(result, dep, {
           variableName,
           injectionToken,
-          ...options as any
+          quoteSymbol: options.quoteSymbol,
+          sourceCode: options.sourceCode,
+          allImports: options.allImports,
         });
         return;
       }
@@ -74,11 +87,14 @@ function getClassOptions(klass: ParsedClass, handlers: DependencyHandler[], opti
   return result;
 }
 
-function getUniqueImports(imports: ParsedImport[]): ParsedImport[] {
+function prepareImports(imports: ParsedImport[], quoteSymbol: string): ParsedImport[] {
   const result: ParsedImport[] = [];
   let index = 0;
   while (index < imports.length) {
     const value = imports[index];
+    if (!value.path.match(/['"']/)) {
+      value.path = quoteSymbol + value.path + quoteSymbol;
+    }
     result.push(value);
     index++;
 
@@ -92,6 +108,17 @@ function getUniqueImports(imports: ParsedImport[]): ParsedImport[] {
     }
   }
   return result;
+}
+
+function determinateUsedQuote(imports: ParsedImport[]): string {
+
+  for (const value of imports) {
+    if (value.path.match(/['"']/)) {
+      return value.path.substring(0, 1);
+    }
+  }
+
+  return '\'';
 }
 
 function getTemplateOptions(name: string): TemplateOptions {

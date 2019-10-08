@@ -1,8 +1,8 @@
-import { <%=name %> } from '<%=path %>';<% 
+import { <%=name %> } from <%=quoteSymbol %><%=path %><%=quoteSymbol %>;<% 
   imports.forEach(function(value) { %>
 import { <%=value.names.join(', ') %> } from <%=value.path %>;<% }) %>
 
-describe('<%=name %>', () => {
+describe(<%=quoteSymbol %><%=name %><%=quoteSymbol %>, () => {
   let <%=instanceVariableName %>: <%=name %>;<% 
     declarations.forEach(function(dec) { %>
   let <%=dec.name %>: <%=dec.type %>;<% }) %>
@@ -21,7 +21,7 @@ describe('<%=name %>', () => {
     create<%=templateType %>();
   });
 
-  it('should create', () => {
+  it(<%=quoteSymbol %>should create<%=quoteSymbol %>, () => {
     expect(<%=instanceVariableName %>).toBeTruthy();
   });
 

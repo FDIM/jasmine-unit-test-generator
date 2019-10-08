@@ -6,9 +6,10 @@ Automates creation of initial unit test files taking dependencies into account.
 
 Supported types:
 
-* component
+* component: [source](spec/fixtures/components/login-form.component.ts), [generated spec](spec/fixtures/components/login-form.component.spec.expected.ts), [generated spec with custom handler](spec/fixtures/components/login-form.component.spec.expected.with-handlers.ts)
 * directive
-* service
+* service: [source](spec/fixtures/auth.service.ts), [generated spec](spec/fixtures/auth.service.spec.expected.ts)
+* service (double quote): [source](spec/fixtures/auth.service.with-double-quote.ts), [generated spec](spec/fixtures/auth.service.with-double-quote.spec.expected.ts)
 * pipe
 * class file (may not be useful depending on use case)
 
@@ -22,7 +23,7 @@ run `jasmine-unit-test-generator --handlers <path-to-handlers-dir> <path-to-file
 
 ## Dependency handlers
 
-You can extend formatting of resulting spec files for each dependency by making a dependency handler. See [default-dependency-handler.ts](./src/default-dependency-handler.ts)
+You can extend formatting of resulting spec files for each dependency by making a dependency handler. See [default-dependency-handler.ts](./src/default-dependency-handler.ts) and [event-bus.service.handler.ts](./spec/fixtures/dependency-handlers/event-bus.service.handler.ts)
 
 It is possible to add extra declarations, initializers and dependencies.
 

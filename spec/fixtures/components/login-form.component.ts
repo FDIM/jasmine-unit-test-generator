@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { EventBusService } from '../helpers/event-bus.service';
-import { AuthChangeEvent } from '../helpers/events';
+import { LoginEvent, LogoutEvent } from '../helpers/events';
+import { merge } from 'rxjs';
 
 @Component({
   selector: 'app-login-form',
@@ -20,8 +21,13 @@ export class LoginFormComponent implements OnInit {
     @Inject(Document) private document: Document
   ) { }
 
-  ngOnInit(): void { 
-    this.eventBusService.of(AuthChangeEvent).subscribe();
+  ngOnInit(): void {
+
+    merge(
+      this.eventBusService.of(LoginEvent),
+      this.eventBusService.of(LogoutEvent)
+    ).subscribe();
+
     this.document.querySelectorAll('div');
   }
 
