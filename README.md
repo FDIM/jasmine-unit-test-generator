@@ -12,22 +12,33 @@ Supported types:
 * pipe
 * class file (may not be useful depending on use case)
 
-## usage
+## Usage
 
 run `jasmine-unit-test-generator <path-to-file>`
 
-### with custom handlers
+with custom dependency handlers:
 
 run `jasmine-unit-test-generator --handlers <path-to-handlers-dir> <path-to-file>`
 
-### custom handlers
+## Dependency handlers
 
-You can extend formatting in spec files for each dependency by making a handler. See `default-dependency-handler.ts`.
-It is possible to adjust declarations, initializers and dependencies. 
+You can extend formatting of resulting spec files for each dependency by making a dependency handler. See [default-dependency-handler.ts](./src/default-dependency-handler.ts)
+
+It is possible to add extra declarations, initializers and dependencies.
 
 ## development
 
-run `npm run build:dev`
+It's probably best to:
+
+* add an input file in `spec/fixtures` folder, e.g. test.ts
+* add expected output file, e.g. test.spec.expected.ts
+* link them in integration.spec.ts
+
+Alternavely, you can:
+
+* run `npm link`
+* run `npm run build:dev`
+* run `jasmine-unit-test-generator <option>` in your project of choice
 
 ## release
 
