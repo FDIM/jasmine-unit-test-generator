@@ -6,36 +6,36 @@ import defaultDependencyHandler from './default-dependency-handler';
 import { DependencyHandler } from './model';
 
 export function run(params: string[]) {
-    if (!params.length) {
-        // tslint:disable-next-line:no-console
-        console.error('missing path argument');
-        process.exit(1);
-    }
+  if (!params.length) {
+    // tslint:disable-next-line:no-console
+    console.error('missing path argument');
+    process.exit(1);
+  }
 
-    const handlers: DependencyHandler[] = [];
-    if (params.length > 1 && params[0].indexOf('--handlers') === 0) {
-        const files = readdirSync(params[1]);
-        files.forEach((file) => {
-            handlers.push(require(process.cwd() + '/' + params[1] + '/' + file));
-        });
-        params = params.slice(2);
-    }
-    handlers.push(defaultDependencyHandler);
+  const handlers: DependencyHandler[] = [];
+  if (params.length > 1 && params[0].indexOf('--handlers') === 0) {
+    const files = readdirSync(params[1]);
+    files.forEach((file) => {
+      handlers.push(require(process.cwd() + '/' + params[1] + '/' + file));
+    });
+    params = params.slice(2);
+  }
+  handlers.push(defaultDependencyHandler);
 
-    const path = params[0];
+  const path = params[0];
 
-    const specPath = path.substring(0, path.length - 2) + 'spec.ts';
-    const sourceCode = readFileSync(path).toString();
+  const specPath = path.substring(0, path.length - 2) + 'spec.ts';
+  const sourceCode = readFileSync(path).toString();
 
-    const sourceFile = ts.createSourceFile(
-        path,
-        sourceCode,
-        ts.ScriptTarget.Latest,
+  const sourceFile = ts.createSourceFile(
+    path,
+    sourceCode,
+    ts.ScriptTarget.Latest,
         /*setParentNodes */ true
-    );
+  );
 
-    const input = parseSourceFile(sourceFile);
-    const output = generateUnitTest(path, sourceCode, input, handlers);
+  const input = parseSourceFile(sourceFile);
+  const output = generateUnitTest(path, sourceCode, input, handlers);
 
-    writeFileSync(specPath, output);
+  writeFileSync(specPath, output);
 }
