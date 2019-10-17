@@ -12,6 +12,11 @@ export function run(params: string[]) {
     process.exit(1);
   }
 
+  if (params.length > 1 && params[0].indexOf('--require') === 0) {
+    require(params[1]);
+    params = params.slice(2);
+  }
+
   const handlers: DependencyHandler[] = [];
   if (params.length > 1 && params[0].indexOf('--handlers') === 0) {
     const files = readdirSync(params[1]);

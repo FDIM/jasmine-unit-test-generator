@@ -26,11 +26,23 @@ With custom event bus service dependency handler:
 
 ## Usage
 
+### Basic
+
 run `jasmine-unit-test-generator <path-to-file>`
 
-with custom dependency handlers:
+### With custom dependency handlers:
 
 run `jasmine-unit-test-generator --handlers <path-to-handlers-dir> <path-to-file>`
+
+### With dependency handlers written in typescript:
+
+install `ts-node` 
+
+run `jasmine-unit-test-generator --require ts-node/register --handlers <path-to-handlers-dir> <path-to-file>`
+
+At the moment argument order is important!
+
+And note that if you install generator globally, ts-node must be installed globally as well. Otherwise both need to be installed locally in the project.
 
 ## Dependency handlers
 
