@@ -13,6 +13,17 @@ Supported types:
 * pipe
 * class file (may not be useful depending on use case)
 
+## Preview
+
+Basic input/output example: 
+
+![Basic](./assets/component-example.png)
+
+With custom event bus service dependency handler:
+
+![With custom event service dependency handler](./assets/component-example-2.png)
+
+
 ## Usage
 
 run `jasmine-unit-test-generator <path-to-file>`
@@ -27,7 +38,7 @@ You can extend formatting of resulting spec files for each dependency by making 
 
 It is possible to add extra declarations, initializers and dependencies.
 
-## development
+## Development
 
 It's probably best to:
 
@@ -41,7 +52,7 @@ Alternavely, you can:
 * run `npm run build:dev`
 * run `jasmine-unit-test-generator <option>` in your project of choice
 
-## release
+## Release
 
 run `npm run build`
 
