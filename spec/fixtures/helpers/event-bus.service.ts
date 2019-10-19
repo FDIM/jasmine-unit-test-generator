@@ -6,5 +6,7 @@ export class EventBusService {
 
   publish<T extends Object>(event: T | string, options?: {}): void { }
 
-  of<T>(channel: (new (...args: any[]) => T) | string, priority: boolean = false): Observable<T> { }
+  of<T>(channel: (new (...args: any[]) => T) | string, priority: boolean = false): Observable<T> {
+    return new Observable();
+   }
 }
