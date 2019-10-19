@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { EventBusService } from '../helpers/event-bus.service';
-import { LoginEvent, LogoutEvent } from '../helpers/events';
+import { Component, OnInit, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { AuthService } from '../../auth.service';
+import { EventBusService } from '../../helpers/event-bus.service';
+import { LoginEvent, LogoutEvent } from '../../helpers/events';
 import { merge } from 'rxjs';
 
 @Component({
@@ -18,7 +19,8 @@ export class LoginFormComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private eventBusService: EventBusService,
-    @Inject(Document) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    @Inject('window') private window: Window,
   ) { }
 
   ngOnInit(): void {
@@ -33,5 +35,9 @@ export class LoginFormComponent implements OnInit {
 
   login() {
     this.authService.login(this.form);
+  }
+
+  error(error: string) {
+    this.window.alert(error);
   }
 }

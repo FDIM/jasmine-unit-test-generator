@@ -8,9 +8,9 @@ describe('integration', () => {
   describe(`login form component test`, () => {
 
     createSpec({
-      file: 'spec/fixtures/components/login-form.component.ts',
-      spec: 'spec/fixtures/components/login-form.component.spec.ts',
-      expected: 'spec/fixtures/components/login-form.component.spec.expected.ts'
+      file: 'spec/fixtures/components/login/login-form.component.ts',
+      spec: 'spec/fixtures/components/login/login-form.component.spec.ts',
+      expected: 'spec/fixtures/components/login/login-form.component.spec.expected.ts'
     });
 
   });
@@ -30,9 +30,9 @@ describe('integration', () => {
     describe('login form component test', () => {
 
       createSpec({
-        file: 'spec/fixtures/components/login-form.component.ts',
-        spec: 'spec/fixtures/components/login-form.component.spec.ts',
-        expected: 'spec/fixtures/components/login-form.component.spec.expected.with-handlers.ts',
+        file: 'spec/fixtures/components/login/login-form.component.ts',
+        spec: 'spec/fixtures/components/login/login-form.component.spec.ts',
+        expected: 'spec/fixtures/components/login/login-form.component.spec.expected.with-handlers.ts',
         arguments: ['--handlers', 'spec/fixtures/dependency-handlers']
       });
 
@@ -79,6 +79,14 @@ function createSpec(input: {
   }
 
   it('should create a matching spec file', () => {
-    expect(readFileSync(input.spec).toString()).toEqual(readFileSync(input.expected).toString());
+    const content = readFileSync(input.spec).toString().split(/\r\n|\n/) || [];
+    const expected = readFileSync(input.expected).toString().split(/\r\n|\n/) || [];
+    let line = 0;
+    // compare lines
+    while (content.length || expected.length) {
+      line++;
+      const prefix = `line(${line})`; // line number
+      expect(prefix + content.shift()).toEqual(prefix + expected.shift());
+    }
   });
 }

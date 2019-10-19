@@ -19,7 +19,7 @@ export function generateUnitTest(path: string, sourceCode: string, input: Parsed
 
   const usedImports = input.imports.reduce((imports, value) => {
     const matchingDependencies = value.names.filter((name) => {
-      return klass.dependencies.some(dep => !!dep.type && dep.type.replace(/(<.*)/, '') === name);
+      return klass.dependencies.some(dep => !!dep.type && dep.type.replace(/(<.*)/, '') === name || dep.token === name);
     });
     if (matchingDependencies.length > 0) {
       imports.push({
@@ -68,7 +68,7 @@ function getClassOptions(klass: ParsedClass, handlers: DependencyHandler[], opti
   klass.dependencies.forEach(dep => {
     const offset = dep.name.indexOf('$') === 0 ? 1 : 0;
     const variableName = 'fake' + dep.name.charAt(offset).toUpperCase() + dep.name.slice(1 + offset);
-    const injectionToken = dep.type && dep.type !== 'any' ? dep.type.replace(/(<.*)/, '') : dep.token;
+    const injectionToken = dep.token ? dep.token : (dep.type && dep.type.replace(/(<.*)/, '') || 'unknown');
 
     for (let i = 0; i < handlers.length; i++) {
       const handler = handlers[i];
