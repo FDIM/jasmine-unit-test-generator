@@ -18,7 +18,7 @@
     "url": "ssh://git@github.com:FDIM/jasmine-unit-test-generator.git"
   },
   "author": "FDIM",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/lodash": "^4.14.141",
     "@types/node": "^11.11.6",
