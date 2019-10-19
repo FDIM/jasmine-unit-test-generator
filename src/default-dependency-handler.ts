@@ -12,7 +12,7 @@ export default {
 
     result.initializers.push({
       name: options.variableName,
-      value: `jasmine.createSpyObj<${dep.type || 'any'}>(${options.quoteSymbol}${dep.type === 'any' || !dep.type ? dep.name : dep.type}${options.quoteSymbol}, [${options.quoteSymbol}${usedMethods.join(`${options.quoteSymbol}, ${options.quoteSymbol}`)}${options.quoteSymbol}])`
+      value: `jasmine.createSpyObj<${dep.type || 'any'}>(${options.quoteSymbol}${dep.type === 'any' || !dep.type ? dep.name : dep.type}${options.quoteSymbol}, [${usedMethods.map(m => (options.quoteSymbol + m + options.quoteSymbol)).join(`, `)}])`
     });
 
     result.dependencies.push({

@@ -15,6 +15,16 @@ describe('integration', () => {
 
   });
 
+  describe(`home component test`, () => {
+
+    createSpec({
+      file: 'spec/fixtures/components/home-page/home-page.component.ts',
+      spec: 'spec/fixtures/components/home-page/home-page.component.spec.ts',
+      expected: 'spec/fixtures/components/home-page/home-page.component.spec.expected.ts'
+    });
+
+  });
+
   describe('with dependency handlers', () => {
 
     describe('login form component test', () => {
