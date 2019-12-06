@@ -26,6 +26,10 @@ With custom event bus service dependency handler:
 
 ## Usage
 
+### Installation
+
+run `npm i jasmine-unit-test-generator`
+
 ### Basic
 
 run `jasmine-unit-test-generator <path-to-file>`
