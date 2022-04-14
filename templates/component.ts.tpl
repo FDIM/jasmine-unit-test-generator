@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from <%=quoteSymbol %>@angular/core/testing<%=quoteSymbol %>;
+import { waitForAsync, ComponentFixture, TestBed } from <%=quoteSymbol %>@angular/core/testing<%=quoteSymbol %>;
 import { <%=name %> } from <%=quoteSymbol %><%=path %><%=quoteSymbol %>;<% 
   imports.forEach(function(value) { %>
 import { <%=value.names.join(', ') %> } from <%=value.path %>;<% }) %>
@@ -9,7 +9,7 @@ describe(<%=quoteSymbol %><%=name %><%=quoteSymbol %>, () => {
     declarations.forEach(function(dec) { %>
   let <%=dec.name %>: <%=dec.type %>;<% }) %>
 
-  beforeEach(async(() => {<% 
+  beforeEach(waitForAsync(() => {<% 
     initializers.forEach(function(factory) { %>
     <%=(factory.name ? (factory.name + ' = ') : '') + factory.value%>;<% }) %>
 

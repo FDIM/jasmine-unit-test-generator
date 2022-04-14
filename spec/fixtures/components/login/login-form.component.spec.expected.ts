@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginFormComponent } from './login-form.component';
 import { DOCUMENT } from '@angular/common';
 import { AuthService } from '../../auth.service';
@@ -12,7 +12,7 @@ describe('LoginFormComponent', () => {
   let fakeDocument: jasmine.SpyObj<Document>;
   let fakeWindow: jasmine.SpyObj<Window>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fakeAuthService = jasmine.createSpyObj<AuthService>('AuthService', ['login']);
     fakeEventBusService = jasmine.createSpyObj<EventBusService>('EventBusService', ['of']);
     fakeDocument = jasmine.createSpyObj<Document>('Document', ['querySelectorAll']);

@@ -31,15 +31,15 @@
     "jasmine-unit-test-generator": "./lib/cli.js"
   },
   "dependencies": {
-    "lodash": "^4.1.*"
+    "lodash": "^4.17.21"
   },
   "peerDependencies": {
     "typescript": "^3.3.4000"
   },
   "optionalDependencies": {
-    "@angular/common": "^8.2.11",
-    "@angular/core": "^8.2.11",
-    "@angular/router": "^8.2.11",
+    "@angular/common": "^12.2.16",
+    "@angular/core": "^12.2.16",
+    "@angular/router": "^12.2.16",
     "rxjs": "^6.5.3"
   }
 }
