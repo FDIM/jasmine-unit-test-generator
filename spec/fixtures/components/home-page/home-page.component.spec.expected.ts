@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HomePageComponent } from './home-page.component';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -8,7 +8,7 @@ describe('HomePageComponent', () => {
   let fakeRouter: jasmine.SpyObj<Router>;
   let fakeRoute: jasmine.SpyObj<ActivatedRoute>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fakeRouter = jasmine.createSpyObj<Router>('Router', ['navigate']);
     fakeRoute = jasmine.createSpyObj<ActivatedRoute>('ActivatedRoute', []);
 
