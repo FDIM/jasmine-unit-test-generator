@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -9,7 +9,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class HomePageComponent implements OnInit {
   constructor(
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    @Inject('window') private window: Window,
   ) { }
 
   ngOnInit(): void {
