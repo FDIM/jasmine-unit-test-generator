@@ -19,6 +19,9 @@ Basic input/output example:
 
 ![Basic](./assets/component-example.png)
 
+With angular router use (built in):
+![Angular router](./assets/component-example-with-angular-router.png)
+
 With custom event bus service dependency handler:
 
 ![With custom event service dependency handler](./assets/component-example-2.png)
