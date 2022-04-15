@@ -7,16 +7,19 @@ describe('HomePageComponent', () => {
   let fixture: ComponentFixture<HomePageComponent>;
   let fakeRouter: jasmine.SpyObj<Router>;
   let fakeRoute: jasmine.SpyObj<ActivatedRoute>;
+  let fakeWindow: jasmine.SpyObj<Window>;
 
   beforeEach(waitForAsync(() => {
     fakeRouter = jasmine.createSpyObj<Router>('Router', ['navigate']);
-    fakeRoute = jasmine.createSpyObj<ActivatedRoute>('ActivatedRoute', []);
+    fakeRoute = {} as jasmine.SpyObj<ActivatedRoute>;
+    fakeWindow = {} as jasmine.SpyObj<Window>;
 
     TestBed.configureTestingModule({
       declarations: [HomePageComponent],
       providers: [
         { provide: Router, useFactory: () => fakeRouter },
         { provide: ActivatedRoute, useFactory: () => fakeRoute },
+        { provide: 'window', useFactory: () => fakeWindow },
       ]
     })
       .compileComponents();
