@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.1
+
+- Loose versions of optional dependencies
+
 ## v1.2.1
 
 - #4: fix for Inject token value not being used in component test template
