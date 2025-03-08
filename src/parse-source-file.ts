@@ -28,6 +28,7 @@ export function parseSourceFile(file: ts.SourceFile): ParsedSourceFile {
       dependencies: []
     };
     ts.forEachChild(node, (child) => {
+      // deps via constructor
       if (child.kind === ts.SyntaxKind.Constructor) {
         const constructor = child as ts.ConstructorDeclaration;
         constructor.parameters.forEach(param => {
@@ -36,6 +37,58 @@ export function parseSourceFile(file: ts.SourceFile): ParsedSourceFile {
             type: param.type && param.type.getText(),
             token: extractInjectionToken(param)
           });
+        });
+      }
+
+      // deps from properties
+      if (child.kind === ts.SyntaxKind.PropertyDeclaration) {
+        const prop = child as ts.PropertyDeclaration;
+
+        prop.forEachChild(propChild => {
+          if (propChild.kind === ts.SyntaxKind.CallExpression) {
+            const text = propChild.getText();
+            if (text.startsWith('inject')) {
+              let token: string | undefined;
+              let type = prop.type && prop.type.getText();
+              if (text.startsWith('inject<')) {
+                token = propChild.getChildAt(5)?.getChildAt(0)?.getText().trim();
+                if (!type) {
+                  type = propChild.getChildAt(2)?.getText();
+                }
+              } else {
+                token = propChild.getChildAt(2)?.getChildAt(0)?.getText().trim();
+              }
+              // support string tokens
+              if (token.startsWith('\'') || token.startsWith('"')) {
+                const typeFromToken = !type && token.match(/ProviderToken<(.+)>/);
+                if (typeFromToken && typeFromToken[1]) {
+                  type = typeFromToken[1];
+                }
+
+                // only use the string part for DI
+                token = token.substr(0, token.indexOf(token[0], 1) + 1);
+              } else if (!type) {
+                type = token;
+              }
+
+              // special case of injection tokens following upper case convention
+              if (!prop.type && type && /^[A-Z]+$/.test(type.replace(/_/g, ''))) {
+                type = `typeof ${type} extends ProviderToken<infer T> ? T : unknown`;
+                if (!result.imports.find(i => i.names.includes('ProviderToken'))) {
+                  result.imports.push({
+                    path: '@angular/core',
+                    names: ['ProviderToken'],
+                  });
+                }
+              }
+
+              klass.dependencies.push({
+                name: prop.name.getText(),
+                type,
+                token,
+              });
+            }
+          }
         });
       }
     });

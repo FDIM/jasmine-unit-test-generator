@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AppConfig, CONFIG_TOKEN } from '../../helpers/config';
 
 @Component({
   selector: 'app-name',
@@ -11,12 +12,14 @@ export class HomePageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     @Inject('window') private window: Window,
+    @Inject(CONFIG_TOKEN) private config: AppConfig,
   ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       if (params.has('type') && params.get('type') === 'user') {
-        this.router.navigate(['home', 'user']);
+        this.router
+          .navigate(['home', 'user']);
       }
     });
   }
