@@ -19,8 +19,9 @@ export function generateUnitTest(path: string, sourceCode: string, input: Parsed
 
   const usedImports = input.imports.reduce((imports, value) => {
     const matchingDependencies = value.names.filter((name) => {
-      return klass.dependencies.some(dep => !!dep.type && dep.type.replace(/(<.*)/, '') === name || dep.token === name);
+      return klass.dependencies.some(dep => !!dep.type && (dep.type.replace(/(<.*)/, '') === name || dep.token === name || dep.type.includes(` extends ${name}`)));
     });
+    
     if (matchingDependencies.length > 0) {
       imports.push({
         path: value.path,
@@ -45,10 +46,10 @@ export function generateUnitTest(path: string, sourceCode: string, input: Parsed
     name: klass.name,
     path: relativePath,
     quoteSymbol,
-    imports: uniqueImports,
     allImports: input.imports,
     ...classOptions,
-    ...templateOptions
+    ...templateOptions,
+    imports: uniqueImports,
   });
 }
 
