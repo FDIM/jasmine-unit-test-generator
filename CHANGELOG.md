@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.4.0
+
+- Used methods lookup now works better by ignoring whitespace
+- `inject` function is now supported on top level properties for dependencies lookup
+
 ## v1.3.1
 
 - Loose versions of optional dependencies
