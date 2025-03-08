@@ -44,8 +44,11 @@ export function parseSourceFile(file: ts.SourceFile): ParsedSourceFile {
 
   function extractInjectionToken(param: ts.ParameterDeclaration): string | undefined {
     let token: string | undefined;
-    if (param.decorators) {
-      param.decorators.forEach(decoratorWalker);
+    // older TS version
+    if ((param as any).decorators) {
+      (param as any).decorators.forEach(decoratorWalker);
+    } else if (param.modifiers) {
+      param.modifiers.forEach(decoratorWalker);
     }
     return token;
 

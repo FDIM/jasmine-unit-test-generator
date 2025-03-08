@@ -45,10 +45,10 @@ export function generateUnitTest(path: string, sourceCode: string, input: Parsed
     name: klass.name,
     path: relativePath,
     quoteSymbol,
-    imports: uniqueImports,
     allImports: input.imports,
     ...classOptions,
-    ...templateOptions
+    ...templateOptions,
+    imports: uniqueImports,
   });
 }
 

@@ -1,0 +1,63 @@
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "start",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "bundle generation complete"
+          }
+        }
+      }
+    },
+    {
+      "type": "npm",
+      "script": "test",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "bundle generation complete"
+          }
+        }
+      }
+    },
+    {
+      "label": "test and watch selected spec file",
+      "type": "shell",
+      "command": "ng",
+      "args": [
+        "test",
+        "--include",
+        "${relativeFile}"
+      ],
+      "group": "test"
+    },
+    {
+      "label": "generate unit test",
+      "command": "node",
+      "type": "shell",
+      "args": [
+        "./node_modules/jasmine-unit-test-generator/lib/cli.js",
+        "${relativeFile}"
+      ],
+      "group": "test"
+    }
+  ]
+}
