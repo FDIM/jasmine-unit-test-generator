@@ -1,7 +1,5 @@
 # Jasmine unit test generator
 
-[![Travis CI build](https://travis-ci.org/fdim/jasmine-unit-test-generator.svg)](https://travis-ci.org/fdim/jasmine-unit-test-generator)
-
 Automates creation of initial unit test files taking dependencies into account.
 
 Supported types:
@@ -12,6 +10,9 @@ Supported types:
 * service (double quote): [source](spec/fixtures/auth.service.with-double-quote.ts), [generated spec](spec/fixtures/auth.service.with-double-quote.spec.expected.ts)
 * pipe
 * class file (may not be useful depending on use case)
+
+> `Constructor` and the use of `inject` function in top level properties is supported.
+
 
 ## Preview
 
